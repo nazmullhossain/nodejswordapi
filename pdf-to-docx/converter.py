@@ -8,13 +8,13 @@ def convert_pdf_to_docx(pdf_path, docx_path):
         # Use absolute paths
         pdf_path = os.path.abspath(pdf_path)
         
-        # Create the output in a temporary directory
+        # Create the output in a temporary directory (Railway compatible)
         temp_dir = tempfile.gettempdir()
         temp_docx = os.path.join(temp_dir, os.path.basename(docx_path))
         
         print(f"Input PDF: {pdf_path}")
-        print(f"Original output: {docx_path}")
-        print(f"Temp output: {temp_docx}")
+        print(f"Requested output: {docx_path}")
+        print(f"Actual output: {temp_docx}")
         
         # Check if input file exists
         if not os.path.exists(pdf_path):
@@ -30,6 +30,8 @@ def convert_pdf_to_docx(pdf_path, docx_path):
         if os.path.exists(temp_docx):
             file_size = os.path.getsize(temp_docx)
             print(f"File successfully created at: {temp_docx}, size: {file_size} bytes")
+            
+            # RETURN THE ACTUAL FILE PATH, not the requested one
             return temp_docx
         else:
             print("Error: File was not created in temp location")
@@ -48,5 +50,9 @@ if __name__ == "__main__":
         
     pdf_path = sys.argv[1]
     docx_path = sys.argv[2]
-    result_path = convert_pdf_to_docx(pdf_path, docx_path)
-    print(f"Final file location: {result_path}")
+    
+    # Get the ACTUAL file path where the file was created
+    actual_file_path = convert_pdf_to_docx(pdf_path, docx_path)
+    
+    # Print ONLY the actual file path (this is what your main app should read)
+    print(f"ACTUAL_FILE_PATH:{actual_file_path}")
