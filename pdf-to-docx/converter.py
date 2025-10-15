@@ -1,12 +1,10 @@
 import sys
-from pdf2docx import Converter
+from pdf2docx import parse
 
 def convert_pdf_to_docx(pdf_path, docx_path):
     try:
-        # Convert PDF to DOCX
-        cv = Converter(pdf_path)
-        cv.convert(docx_path, start=0, end=None)
-        cv.close()
+        # This uses different internal methods that might work with newer PyMuPDF
+        parse(pdf_path, docx_path)
         print("Conversion completed successfully")
     except Exception as e:
         print(f"Error during conversion: {str(e)}")
